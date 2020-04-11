@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+
+
+const long oo = 1000111000;
+long a[5001][5001];
+long n, m;
+long min = 10000;
+long max[5001];
+
+
+
+int main() {
+    scanf("%ld%ld", &n, &m);
+    for (long i = 1; i <= n; i++)
+        for (long j = 1; j <= n; j++)
+            a[i][j] = oo;
+    for (long i = 1; i <= n; i++)
+        a[i][i] = 0;
+
+    for (long i = 1; i <= m; i++) {
+        long p, q;
+        scanf("%ld%ld", &p, &q);
+        a[p][q] = a[q][p] = 1;
+    }
+
+    for (long k = 1; k <= n; k++)
+        for (long i = 1; i <= n; i++)
+            for (long j = 1; j <= n; j++)
+                if (a[i][j]>a[i][k] + a[k][j]) a[i][j]= a[i][k] + a[k][j];
+    max[1] = 0;
+    for (long i = 1; i <= n; i++)
+            for (long j = 1; j <= n; j++){
+                if (a[i][j]> max[i])
+                {
+                    max[i]= a[i][j];
+                }
+            }
+     for (long i = 1; i <= n; i++){
+         if (max[i]< min){
+             min = max[i];
+         }
+     }
+    printf("%ld", min);
+
+}
+
