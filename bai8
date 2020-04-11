@@ -1,0 +1,63 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int n , m , i, p ,j , temp;
+    cin >> n >> m;
+    int truck[m] , man[n] , board[m][n] , time[m][n];
+    for ( i = 0 ; i < n ; i++ )
+    {
+        cin >> man[i];
+    }
+    for (i = 0 ; i < m ; i++ )
+    {
+        cin >> truck[i];
+    }
+    sort (truck , truck + m);
+    for ( i = 0 ; i < m/2 ; i++ )
+    {
+        swap(truck[i], truck[m-i-1]);
+    }
+    for (i = 0 ; i < m ; i++ )
+    {
+        for ( j = 0 ; j < n ; j++ )
+        {
+            board[i][j] = truck[i] * man[j];
+        }
+    }
+    time[0][0] = 0;
+    for( i = 1 ; i < n ; i++ )
+    {
+        time[0][i] = time[0][i-1] + board [0][i-1];
+    }
+    for (i = 1 ; i < m ; i++ )
+    {
+        time[i][n-1] = time [i-1][n-1] + board[i-1][n-1];
+        for ( j = n-2 ; j >= 0 ; j-- )
+        {
+            time [i][j] = time[i][j+1] - board[i][j];
+        }
+        for ( j = 0 ; j < n-1 ; j ++ )
+        {
+            if (time[i][j] < time[i-1][j+1])
+            {
+                temp = time[i-1][j+1] - time[i][j];
+                for (p = 0 ; p < n ; p++ )
+                {
+                    time[i][p] += temp;
+                }
+            }
+        }
+    }
+    /*for ( i = 0 ; i < m  ;i ++ )
+    {
+        for (j = 0 ; j < n ; j++ )
+        {
+            cout << time[i][j] << " ";
+        }
+        cout << endl;
+    }*/
+    cout << time[m-1][n-1] + board [m-1][n-1];
+    return 0;
+}
