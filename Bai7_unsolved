@@ -1,0 +1,33 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int n , t;
+    cin >> n >> t;
+    int i , count = 0 , j, anchor;
+    long long a[n+2];
+    a[0] = 0;
+    for (i = 1 ; i <= n ; i++ )
+    {
+        cin >> a[i];
+        a[i] += a[i-1];
+    }
+    a[n+1] = a[n] + t +1;
+    anchor = 1;
+    for ( i = 0 ; i <= n ; i++ )
+    {
+        for ( j = anchor ; j <= n+1 ; j++ )
+        {
+            if (a[j] - a[i] <= t)
+            {
+                continue;
+            }
+            count += (j-i-1);
+            anchor = j;
+            break;
+        }
+    }
+    cout << count;
+    return 0;
+}
